@@ -1,0 +1,46 @@
+extends ../layouts/default
+
+block main
+    h1= bicycle.name
+
+block content
+    .row
+        .col-md-8
+            - if (bicycle.owner)
+                p 拥有者：&nbsp;
+                    a(href='/users/'+bicycle.owner._id)= bicycle.owner.name
+
+            p= '车辆描述：' + bicycle.desc
+            .meta
+                //TODO how does this work
+                p.muted= formatDate(bicycle.createdAt, "%b %d, %Y at %I:%M %p")
+
+        .col-md-4
+            - if (!bicycle.isNew && bicycle.image)
+                img(src=bicycle.image.url)
+
+    - if (user._id.toString() == bicycle.owner._id.toString())
+        //TODO complete this 2 function
+        form(action='/bicycles/'+bicycle._id, method='post', onsubmit="return confirm('将会删除该车，确定吗？')")
+            input(type='hidden', name='_csrf', value='#{csrf_token}')
+            a.btn.btn-primary(href='/bicycles/'+bicycle._id+'/edit') 编辑
+            &nbsp;
+            //TODO 1. how it works; 2. can delete work?
+            input(type='hidden', name='_method', value='DELETE')
+            button.btn.btn-danger(type='submit') 删除
+    - else
+        a.btn.btn-warning(href='/bicycles/'+bicycle._id+'/order') 预定
+
+    br
+    .row
+        h2 当前订单：
+        - if (bicycle.orders.length)
+            - each order in bicycle.orders
+                p 卖家： 
+                    a(href='/users/'+order.buyer._id) #{order.buyer.name}
+                p 买家： 
+                    a(href='/users/'+order.seller._id) #{order.seller.name}
+                p 开始日期： #{order.from}
+                p 结束日期： #{order.to}
+        - else
+            p 没有订单

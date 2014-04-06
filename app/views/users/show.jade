@@ -1,0 +1,18 @@
+extends ../layouts/default
+
+block main
+    h1= user.name
+
+block content
+    .col-md-2
+        ul.nav.nav-pills.nav-stacked
+            li(class='')
+                a(href='/bicycles/new', title='添加新车') 添加新车
+
+
+    .col-md-10
+        p 当前订单
+            - if (user.orders.length)
+                - each order in user.orders
+            - else
+                没有订单

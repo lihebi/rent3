@@ -89,8 +89,9 @@ module.exports = function (app, config, passport) {
       // This could be moved to view-helpers :-)
       app.use(function(req, res, next){
         res.locals.csrf_token = req.csrfToken();
-        //hbcmt very good!! just use myhelper in x.jade!
-        res.locals.myhelper = require('./myhelper.js');
+        //hbcmt very good!! just use helpers.xxx in x.jade!
+        //the locals.helpers can be every thing , e.g. res.locals.myhelpers, use by: myhelpers.func()
+        res.locals.helpers = require('./helpers.js');
         next()
       })
     }

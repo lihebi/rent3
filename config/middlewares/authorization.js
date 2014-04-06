@@ -23,23 +23,9 @@ exports.user = {
   }
 }
 
-/*
- *  Article authorization routing middleware
- */
-
-exports.article = {
-  hasAuthorization: function (req, res, next) {
-    if (req.article.user.id != req.user.id) {
-      req.flash('info', 'You are not authorized')
-      return res.redirect('/articles/' + req.article.id)
-    }
-    next()
-  }
-}
-
-exports.car = {
+exports.bicycle = {
     hasAuthorization: function (req, res, next) {
-        if (req.car.user.id != req.user.id) {
+        if (req.bicycle.owner._id != req.user.id) { //TODO ?
             req.flash('info', 'You are not authorized');
             return res.redirect('/cars/'+req.car.id);
         }

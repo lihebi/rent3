@@ -1,0 +1,30 @@
+<!--
+@file views/bicycles/index.jade
+-->
+
+extends ../layouts/default
+
+block main
+    h1= title
+
+block content
+    - if (bicycles.length)
+        - each bicycle in bicycles
+            .bicycle
+                h3
+                    //TODO ?
+                    a(href='/bicycles/'+bicycle._id, title=bicycle.name) #{bicycle.name}
+                    p= bicycle.desc
+                    .meta
+                        //TODO ?
+                        span.muted= formatDate(bicycle.createdAt)
+                        - if (bicycle.owner)
+                            &nbsp; - &nbsp;
+                            span 拥有者 &nbsp;
+                            a(href='/users/'+bicycle.owner._id)= bicycle.owner.name
+        - if (pages>1)
+            ul.pagination
+                != createPagination(pages, page)
+    - else
+        h4.muted 当前没有车辆。&nbsp;
+        a(href='/bicycles/new') 添加一辆
